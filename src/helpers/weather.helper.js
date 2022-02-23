@@ -1,0 +1,6 @@
+const weatherHelper = {
+    getForecastOfTheDay(forecast){
+
+
+    }
+}
