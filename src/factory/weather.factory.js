@@ -5,7 +5,6 @@ import {imageHelper} from "../helpers/image.helper";
 const weatherFactory = {
     async getCurrentWeather(weatherRawData) {
         const weatherImg = imageHelper.getWeatherImage(weatherRawData.weather[0].icon);
-        console.log(weatherImg);
         return {
             weather: weatherRawData.weather[0].description,
             temperature: parseInt(weatherRawData.main.temp),

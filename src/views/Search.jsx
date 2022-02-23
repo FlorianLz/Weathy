@@ -39,6 +39,7 @@ export default function Search(){
                 icon={weather.icon}
                 wind={weather.wind}
                 humidity={weather.humidity}
+                type="search"
             /> : weather && <p className="pt-5 text-center">{weather.message} : {city.current.value}</p>}
         </main>
     );

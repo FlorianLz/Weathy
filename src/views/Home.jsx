@@ -30,7 +30,7 @@ export default class Home extends Component {
 
     render() {
         return (
-            <main className="container mx-auto px-7 min-h-screen pb-[60px] pt-4">
+            <main className="container mx-auto px-7 pb-[60px] pt-4">
                 {this.state.loading ?
                     <>
                     <CurrentTime />
