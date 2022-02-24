@@ -9,6 +9,11 @@ export const weatherService = {
         const weatherData = weatherFactory.getCurrentWeather(weatherRawData);
         return weatherData;
     },
+    async getCurrentWeatherByCoord(lat,lon) {
+        const weatherRawData = await weatherRepository.getCurrentWeather(lat, lon);
+        const weatherData = weatherFactory.getCurrentWeather(weatherRawData);
+        return weatherData;
+    },
     async getForecastWeather() {
         const mylocalisation = await localisation.getLocalisation();
         const weatherRawData = await weatherRepository.getForecastWeather(mylocalisation.latitude, mylocalisation.longitude);

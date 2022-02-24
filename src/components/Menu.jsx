@@ -5,19 +5,24 @@ import search_icon from "../assets/icons/search.svg";
 import search_icon_white from "../assets/icons/search_white.svg";
 import favorite_icon from "../assets/icons/favorite.svg";
 import favorite_icon_white from "../assets/icons/favorite_white.svg";
+import map_icon from "../assets/icons/map.svg";
+import map_icon_white from "../assets/icons/map_white.svg";
 export default function Menu({active}){
     const activePath = useLocation().pathname;
   return (
-    <nav className="h-[50px] fixed bottom-0 w-screen justify-around items-center bg-white">
+    <nav className="h-[50px] fixed bottom-0 w-screen justify-around items-center bg-white z-20">
         <ul className="flex text-white w-100 h-full justify-around align-middle">
-            <li className={`flex items-center h-100 w-1/3 justify-center ${activePath == '/' ? 'bg-blue-400': ''}`}>
-                <Link className="w-full h-full flex justify-center items-center" to="/"><img className="w-5 max-h-5" src={activePath == '/' ? menu_icon_white : menu_icon} alt="Go to homepage"/></Link>
+            <li className={`flex items-center h-100 w-1/4 justify-center ${activePath == '/' ? 'bg-blue-400': ''}`}>
+                <Link className="w-full h-full flex justify-center items-center" to="/"><img className="w-5 max-h-5" src={activePath == '/' ? menu_icon_white : menu_icon} alt="Aller à la page d'accueil"/></Link>
             </li>
-            <li className={`flex items-center h-100 w-1/3 justify-center ${activePath == '/search' ? 'bg-blue-400': ''}`}>
-                <Link className="w-full h-full flex justify-center items-center" to="/search"><img className="w-5 max-h-5" src={activePath == '/search' ? search_icon_white : search_icon} alt="Go to search page"/></Link>
+            <li className={`flex items-center h-100 w-1/4 justify-center ${activePath == '/search' ? 'bg-blue-400': ''}`}>
+                <Link className="w-full h-full flex justify-center items-center" to="/search"><img className="w-5 max-h-5" src={activePath == '/search' ? search_icon_white : search_icon} alt="Aller sur la page de recherche"/></Link>
             </li>
-            <li className={`flex items-center h-100 w-1/3 justify-center ${activePath == '/favorites' ? 'bg-blue-400': ''}`}>
-                <Link className="w-full h-full flex justify-center items-center" to="/favorites"><img className="w-5 max-h-5" src={activePath == '/favorites' ? favorite_icon_white : favorite_icon} alt="Go to favorite page"/></Link>
+            <li className={`flex items-center h-100 w-1/4 justify-center ${activePath == '/favorites' ? 'bg-blue-400': ''}`}>
+                <Link className="w-full h-full flex justify-center items-center" to="/favorites"><img className="w-5 max-h-5" src={activePath == '/favorites' ? favorite_icon_white : favorite_icon} alt="Aller aux favoris"/></Link>
+            </li>
+            <li className={`flex items-center h-100 w-1/4 justify-center ${activePath == '/map' ? 'bg-blue-400': ''}`}>
+                <Link className="w-full h-full flex justify-center items-center" to="/map"><img className="w-5 max-h-5" src={activePath == '/map' ? map_icon_white : map_icon} alt="Aller à la carte"/></Link>
             </li>
         </ul>
     </nav>

@@ -7,7 +7,7 @@ export const favsReducer = createSlice({
     },
     reducers:{
         toggleFavorite: (state, action) => {
-            if(!state.listOfFavs.includes(action.payload)){
+            if(!state.listOfFavs.includes(action.payload) && action.payload !== ""){
                 state.listOfFavs.push(action.payload);
             }else{
                 state.listOfFavs = state.listOfFavs.filter(item => item !== action.payload);

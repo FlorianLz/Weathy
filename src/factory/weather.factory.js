@@ -14,7 +14,9 @@ const weatherFactory = {
             humidity: parseInt(weatherRawData.main.humidity),
             feel_like: parseInt(weatherRawData.main.feels_like),
             sunrise: weatherRawData.sys.sunrise,
-            sunset: weatherRawData.sys.sunset
+            sunset: weatherRawData.sys.sunset,
+            latitude: weatherRawData.coord.lat,
+            longitude: weatherRawData.coord.lon
         };
     },
     async getForecastWeather(weatherRawData) {

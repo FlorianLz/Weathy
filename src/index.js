@@ -9,6 +9,7 @@ import Favorites from "./views/Favorites";
 import store from "./store/store";
 import {Provider} from "react-redux";
 import City from "./views/City";
+import Map from "./views/Map";
 
 ReactDOM.render(
     <React.StrictMode>
@@ -20,6 +21,7 @@ ReactDOM.render(
                         <Route path="/search" element={<Search />} />
                         <Route path="/favorites" element={<Favorites />} />
                         <Route path="/city/:city" element={<City />} />
+                        <Route path="/map" element={<Map />} />
                     </Route>
                 </Routes>
             </BrowserRouter>
