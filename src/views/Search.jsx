@@ -11,7 +11,6 @@ export default function Search(){
         e.preventDefault();
         if(city.current.value){
             weatherService.getWeatherByCity(city.current.value).then(data => {
-                console.log(data)
                 setWeather(data);
             });
         }

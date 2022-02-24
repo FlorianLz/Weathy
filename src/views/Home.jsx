@@ -12,7 +12,8 @@ export default class Home extends Component {
             weather: null,
             temperature: null,
             icon: null,
-            loading: false
+            loading: false,
+            forecastData: null
         };
     }
     async componentDidMount() {
@@ -23,7 +24,11 @@ export default class Home extends Component {
             temperature: data.temperature,
             icon: data.icon,
             wind: data.wind,
-            humidity: data.humidity,
+            humidity: data.humidity
+        });
+        const forecastData = await weatherService.getForecastWeather();
+        this.setState({
+            forecastData: forecastData,
             loading: true
         });
     }
@@ -41,8 +46,9 @@ export default class Home extends Component {
                         icon={this.state.icon}
                         wind={this.state.wind}
                         humidity={this.state.humidity}
-                    /></> : <p className="text-center py-6">Chargement en cours...</p>}
-                <ForecastWeather />
+                    />
+                        <ForecastWeather forecastData={this.state.forecastData} /></> : <p className="text-center py-6">Chargement en cours...</p>}
+
             </main>
         );
     }

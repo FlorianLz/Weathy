@@ -2,13 +2,13 @@ import Forecast from "./Forecast";
 import {useEffect, useState} from "react";
 import {weatherService} from "../services/weather.service";
 
-export default function ForecastWeather(){
+export default function ForecastWeather({forecastData}){
     const [forecastWeather, setForecastWeather] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(()=>{
-        weatherService.getForecastWeather().then(data=>{
-            setForecastWeather(data);
-        });
+        setForecastWeather(forecastData);
+        setLoading(true);
     },[]);
 
     return(
