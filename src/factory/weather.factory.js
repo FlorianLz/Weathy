@@ -7,12 +7,13 @@ import {weatherHelper} from "../helpers/weather.helper";
 const weatherFactory = {
     async getCurrentWeather(weatherRawData) {
         const weatherImg = imageHelper.getWeatherImage(weatherRawData.weather[0].icon);
+        console.log(weatherRawData)
         return {
             weather: weatherHelper.capitalizeFirstLetter(weatherRawData.weather[0].description),
             temperature: parseInt(weatherRawData.main.temp),
             icon: weatherImg,
             city: weatherRawData.name,
-            wind: weatherRawData.wind.speed,
+            wind: weatherHelper.convertMPerHourIntoKMPerHour(weatherRawData.wind.speed),
             humidity: parseInt(weatherRawData.main.humidity),
             feel_like: parseInt(weatherRawData.main.feels_like),
             sunrise: weatherRawData.sys.sunrise,
