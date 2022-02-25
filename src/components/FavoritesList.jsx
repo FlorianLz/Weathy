@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {favoritesService} from "../services/favorites.service";
 import FavoriteWeather from "./FavoriteWeather";
 import {Link} from "react-router-dom";
+import {cookiesHelper} from "../helpers/cookies.helper";
 
 class FavoritesList extends Component{
     constructor(props) {
@@ -19,7 +20,6 @@ class FavoritesList extends Component{
                 listOfFavs: this.props.listOfFavs
             });
             favoritesService.getDataFavorites(this.props.listOfFavs).then(favs => {
-                console.log(favs)
                 this.setState({
                     listOfFavsData: favs
                 });
@@ -28,10 +28,10 @@ class FavoritesList extends Component{
     }
 
     componentDidMount() {
+        let cookies = cookiesHelper.getCookiesFavs();
         this.setState({
-            listOfFavs: this.props.listOfFavs
+            listOfFavs: cookies
         });
-
         if(this.props.listOfFavs.length > 0) {
             favoritesService.getDataFavorites(this.props.listOfFavs).then(favs => {
                 this.setState({

@@ -1,4 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {cookiesHelper} from "../../helpers/cookies.helper";
 
 export const favsReducer = createSlice({
     name: 'favs',
@@ -12,9 +13,14 @@ export const favsReducer = createSlice({
             }else{
                 state.listOfFavs = state.listOfFavs.filter(item => item !== action.payload);
             }
+            cookiesHelper.setCookiesFavs('favoris', state.listOfFavs);
+        },
+        initFavorites: (state, action) => {
+            const favs = cookiesHelper.getCookiesFavs('favoris');
+            return {...state, listOfFavs: favs}
         }
     }
 });
 
-export const {toggleFavorite} = favsReducer.actions;
+export const {toggleFavorite,initFavorites} = favsReducer.actions;
 export default favsReducer.reducer;
