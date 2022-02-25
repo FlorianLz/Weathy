@@ -6,18 +6,26 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./views/Home";
 import Search from "./views/Search";
 import Favorites from "./views/Favorites";
+import store from "./store/store";
+import {Provider} from "react-redux";
+import City from "./views/City";
+import Map from "./views/Map";
 
 ReactDOM.render(
     <React.StrictMode>
-        <BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<App />}>
                         <Route path="/" element={<Home />} />
                         <Route path="/search" element={<Search />} />
                         <Route path="/favorites" element={<Favorites />} />
+                        <Route path="/city/:city" element={<City />} />
+                        <Route path="/map" element={<Map />} />
                     </Route>
                 </Routes>
-        </BrowserRouter>
+            </BrowserRouter>
+        </Provider>
     </React.StrictMode>,
     document.getElementById('root')
 );
