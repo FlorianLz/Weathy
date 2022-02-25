@@ -2,9 +2,9 @@ export const cookiesHelper = {
     setCookiesFavs: (cname, cvalue, exdays) => {
         const d = new Date();
         d.setTime(d.getTime() + (exdays*24*60*60*1000));
-        let expires = "expires="+ d.toUTCString();
+        let expires = cookiesHelper.getCookieExpirationDate();
         let val = JSON.stringify(cvalue);
-        return document.cookie = cname + "=" + val + ";" + expires + ";path=/";
+        return document.cookie = cname + "=" + val + ";expires=" + expires + ";path=/";
     },
     getCookiesFavs(cname){
         const name = cname + "=";
@@ -15,6 +15,10 @@ export const cookiesHelper = {
             return res;
         }
         return [];
-
+    },
+    getCookieExpirationDate() {
+        let expiration = new Date();
+        expiration.setMonth(expiration.getMonth() + 12)
+        return expiration;
     }
 }
