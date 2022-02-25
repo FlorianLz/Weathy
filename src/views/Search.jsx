@@ -9,17 +9,17 @@ export default function Search(){
 
     function search(e){
         e.preventDefault();
-        if(city.current.value){
-            weatherService.getWeatherByCity(city.current.value).then(data => {
+        if((city.current.value).trim()){
+            weatherService.getWeatherByCity((city.current.value).trim()).then(data => {
                 setWeather(data);
             });
         }
     }
 
     return (
-        <main className="container mx-auto px-7 h-screen">
-            <h1 className="text-3xl font-bold text-center pt-5">Chercher un lieu</h1>
-            <p className="pt-2 text-base text-center">Trouvez la ville dont vous voulez connaître les informations météorologiques détaillées.</p>
+        <main className="container mx-auto px-4  h-screen max-w-[640px]">
+            <h1 className="text-2xl font-bold text-center py-4">Chercher un lieu</h1>
+            <p className="text-base text-center">Trouvez la ville dont vous voulez connaître les informations météorologiques détaillées.</p>
             <div className="flex rounded  bg-gray-200 my-4 border border-gray-300">
                 <button className="flex items-center justify-center px-4 border-r-2 border-gray-300" onClick={(e)=>search(e)}>
                     <svg className="w-4 h-4 text-gray-600" fill="black" xmlns="http://www.w3.org/2000/svg"

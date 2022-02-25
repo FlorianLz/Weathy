@@ -1,12 +1,15 @@
 import dateHelper from "../helpers/date.helper";
-import locationIcon from "../assets/icons/location.svg";
+import closeIcon from "../assets/icons/close.svg";
 import AddToFav from "./AddToFav";
 
-export default function CurrentWeatherMap({city,temperature, icon, weather, wind, type, humidity}) {
+export default function CurrentWeatherMap({city,temperature, icon, weather, wind, humidity, handleClose}) {
 
     return(
-        <div className="bg-blue-400 p-4 rounded-2xl text-white relative">
-            {city && <AddToFav city={city}/>}
+        <div className="bg-blue-400 p-4 rounded-2xl text-white relative overflow-hidden">
+            {city && <div className="text-right flex justify-between h-8 w-full">
+                <div className="h-8 w-8"><img className="w-full h-full transform translate-x-[-5px]" src={closeIcon} onClick={()=>handleClose()}/></div>
+                <div className="h-8 w-8"><AddToFav city={city} fav={true}/></div>
+            </div>}
             <div className="flex justify-around items-center">
                 <div className="flex-col items-center pt-3 justify-center h-fit">
                     <h1 className="text-2xl font-bold text-center">{city}</h1>

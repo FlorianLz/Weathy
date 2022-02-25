@@ -9,6 +9,6 @@ export default function CurrentTime(){
         return () => clearInterval(interval);
     }, []);
     return (
-        <p className="font-semibold pb-4 text-center text-4xl">{time.toLocaleTimeString()}</p>
+        <p className="font-semibold pb-4 text-center text-2xl">{time.toLocaleTimeString()}</p>
     );
 }

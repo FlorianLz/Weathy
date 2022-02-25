@@ -20,6 +20,12 @@ export const weatherService = {
         const weatherData = weatherFactory.getForecastWeather(weatherRawData);
         return weatherData;
     },
+    async getForecastWeatherNextDays() {
+        const mylocalisation = await localisation.getLocalisation();
+        const weatherRawData = await weatherRepository.getForecastWeather(mylocalisation.latitude, mylocalisation.longitude);
+        const weatherData = weatherFactory.getForecastWeatherNextDays(weatherRawData);
+        return weatherData;
+    },
     async getWeatherByCity(city) {
         const weatherRawData = await weatherRepository.getWeatherByCity(city);
         const weatherData = weatherFactory.getWeatherByCity(weatherRawData);

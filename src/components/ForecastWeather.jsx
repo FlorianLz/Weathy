@@ -14,7 +14,7 @@ export default function ForecastWeather({forecastData}){
     return(
         <div className="pt-6 font-semibold">
             <p>Prévisions du jour</p>
-            <div className="mt-1 flex overflow-scroll">
+            <div className="mt-1 flex overflow-scroll no-scrollbar snap-x">
                 {forecastWeather.map((weather, index)=>{
                     return(
                         <Forecast key={index} temperature={weather.temperature} hour={weather.hour} icon={weather.icon}/>

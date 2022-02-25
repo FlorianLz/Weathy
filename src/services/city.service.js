@@ -18,5 +18,10 @@ export const cityServices ={
         const forecastRawData = await weatherRepository.getForecastWeather(coord.latitude, coord.longitude);
         const forecastData = weatherFactory.getForecastWeather(forecastRawData);
         return forecastData;
+    },
+    async getForecastWeatherNextDays(coord){
+        const forecastRawData = await weatherRepository.getForecastWeather(coord.latitude, coord.longitude);
+        const forecastData = weatherFactory.getForecastWeatherNextDays(forecastRawData);
+        return forecastData;
     }
 }

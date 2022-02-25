@@ -34,7 +34,7 @@ class AddToFav extends Component {
 
     render(){
         return (
-            <img className={`h-8 w-8 ${this.props.fav ? 'relative w-2/6' : 'absolute right-4'}`} src={this.state.star} onClick={(e)=>{e.preventDefault();this.toggleFav(this.state.city)}} />
+            <img className={`h-full w-full ${this.props.fav ? 'relative' : ''}`} src={this.state.star} onClick={(e)=>{e.preventDefault();this.toggleFav(this.state.city)}} />
         )
     }
 

@@ -34,7 +34,6 @@ class Map extends Component{
     componentDidMount() {
         localisation.getLocalisation().then(
             (response) => {
-                console.log(response);
                 this.setState({
                     longitude: response.longitude,
                     latitude: response.latitude,
@@ -85,11 +84,9 @@ class Map extends Component{
             centerLon: fav.longitude,
             zoomMap: 11.5
         });
-        console.log(fav)
     }
 
    clickMap(map,e){
-       console.log(e.lngLat);
        weatherService.getCurrentWeatherByCoord(e.lngLat.lat,e.lngLat.lng).then(
            (response) => {
                this.setState({
@@ -98,7 +95,8 @@ class Map extends Component{
                    centerLon: e.lngLat.lng,
                    popup: true,
                    markerClicked: true,
-                   city: response.city
+                   city: response.city,
+                   closePopup: false
                });
            }
        );
@@ -106,9 +104,9 @@ class Map extends Component{
 
     render(){
         return(
-            <main className="container mx-auto px-7 pb-[60px] pt-4 h-screen">
-                <h1 className="text-2xl py-3 font-bold text-center">Carte des favoris</h1>
-                <div className="h-[calc(97vh-106px-1rem)]">
+            <main className="container mx-auto pb-[50px] pt-4 h-screen max-w-[640px] relative">
+                <h1 className="text-2xl pb-4 font-bold text-center">Carte des favoris</h1>
+                <div className="h-[calc(100vh-98px-1rem)]">
                     {this.state.longitude && this.state.latitude &&
                         <MyMap style="mapbox://styles/mapbox/streets-v9"
                            initialViewState={{
@@ -124,24 +122,24 @@ class Map extends Component{
                             zoom={[this.state.zoomMap]}
                            onClick={(map,e) => this.clickMap(map,e)}
                         >
-                        <Marker className="w-6 h-6" coordinates={[this.state.longitude, this.state.latitude]} anchor="bottom">
+                        <Marker className="w-8 h-8" coordinates={[this.state.longitude, this.state.latitude]} anchor="bottom">
                             <img src={markerUrlActual} alt="" onClick={()=>this.openPopup(this.state.dataActual)}/>
                         </Marker>
                         {this.state.listOfFavsData && this.state.listOfFavsData.map(fav => {
                             return(
-                                <Marker key={fav.city} className="w-6 h-6" coordinates={[fav.longitude, fav.latitude]} anchor="bottom">
+                                <Marker key={fav.city} className="w-8 h-8" coordinates={[fav.longitude, fav.latitude]} anchor="bottom">
                                     <img src={markerUrl} alt="" onClick={()=>this.openPopup(fav)}/>
                                 </Marker>
                             )
                         })}
-                            {this.state.markerClicked && <Marker key={this.state.centerLat} className="w-6 h-6" coordinates={[this.state.centerLon, this.state.centerLat]} anchor="bottom">
+                            {this.state.markerClicked && <Marker key={this.state.centerLat} className="w-8 h-8" coordinates={[this.state.centerLon, this.state.centerLat]} anchor="bottom">
                                 <img src={markerUrlClick} alt=""/>
                             </Marker>}
                     </MyMap> }
 
                 </div>
                 {this.state.popup === true &&
-                    <div className="absolute bottom-[40px] left-0 z-10 w-screen">
+                    <div className={`absolute bottom-[60px] left-3 z-10 w-[calc(100vw-1.5rem)] max-w-[640px] ${this.state.closePopup ? 'animate-fadeOut' : 'animate-fade'}`}>
                         <CurrentWeatherMap
                             city={this.state.dataPopup.city}
                             weather={this.state.dataPopup.weather}
@@ -150,11 +148,23 @@ class Map extends Component{
                             wind={this.state.dataPopup.wind}
                             humidity={this.state.dataPopup.humidity}
                             type="search"
+                            handleClose={() => this.closePopup()}
                         />
                     </div>
                 }
             </main>
         )
+    }
+
+    closePopup() {
+        this.setState({
+            closePopup: true
+        });
+        setTimeout(()=>{
+            this.setState({
+                popup: false
+            });
+        },600);
     }
 }
 
