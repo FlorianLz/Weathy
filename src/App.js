@@ -4,6 +4,7 @@ import Menu from "./components/Menu";
 import {Component} from "react";
 import {initFavorites} from "./store/reducers/favsReducer";
 import {connect} from "react-redux";
+import ReactGA from 'react-ga';
 
 class App extends Component {
     constructor(props) {
@@ -14,6 +15,8 @@ class App extends Component {
     }
     componentDidMount() {
         this.props.initFavorites();
+        ReactGA.initialize('UA-221438667-1');
+        ReactGA.pageview(window.location.pathname + window.location.search);
     }
 
     render() {
