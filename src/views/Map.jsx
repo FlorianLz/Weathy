@@ -10,7 +10,8 @@ import localisation from "../helpers/localisation.helper";
 import {weatherService} from "../services/weather.service";
 import CurrentWeatherMap from "../components/CurrentWeatherMap";
 import {favsHelper} from "../helpers/favs.helper";
-import {cityServices} from "../services/city.service";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 const MyMap = ReactMapboxGl({
     accessToken:
     process.env.REACT_APP_MAPBOX_API_KEY
@@ -46,6 +47,11 @@ class Map extends Component{
                             dataActual: response,
                             city: response.city
                         });
+                        setTimeout(() => {
+                            this.setState({
+                                loadingMap: true
+                            });
+                        }, 500);
                     }
                 );
             }
@@ -107,7 +113,7 @@ class Map extends Component{
             <main className="container mx-auto pb-[50px] pt-4 h-screen max-w-[640px] relative">
                 <h1 className="text-2xl pb-4 font-bold text-center">Carte des favoris</h1>
                 <div className="h-[calc(100vh-98px-1rem)]">
-                    {this.state.longitude && this.state.latitude &&
+                    {(this.state.loadingMap) ?
                         <MyMap style="mapbox://styles/mapbox/streets-v9"
                            initialViewState={{
                                longitude: this.state.longitude,
@@ -135,7 +141,7 @@ class Map extends Component{
                             {this.state.markerClicked && <Marker key={this.state.centerLat} className="w-8 h-8" coordinates={[this.state.centerLon, this.state.centerLat]} anchor="bottom">
                                 <img src={markerUrlClick} alt=""/>
                             </Marker>}
-                    </MyMap> }
+                    </MyMap> : <Skeleton className="h-full"/> }
 
                 </div>
                 {this.state.popup === true &&

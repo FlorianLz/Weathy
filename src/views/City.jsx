@@ -3,9 +3,11 @@ import {useEffect, useState} from "react";
 import {cityServices} from "../services/city.service";
 import CurrentTime from "../components/CurrentTime";
 import CurrentWeather from "../components/CurrentWeather";
-import {weatherService} from "../services/weather.service";
 import ForecastWeather from "../components/ForecastWeather";
 import ForecastWeatherNextDays from "../components/ForecastWeatherNextDays";
+import CurrentWeatherSkeleton from "../components/CurrentWeatherSkeleton";
+import ForecastWeatherNextDaysSkeleton from "../components/ForecastWeatherNextDaysSkeleton";
+import ForecastWeatherSkeleton from "../components/ForecastWeatherSkeleton";
 
 export default function City(){
     const {city} = useParams();
@@ -14,14 +16,16 @@ export default function City(){
     const [loading, setLoading] = useState(false);
     const [weatherDataNextDays, setWeatherDataNextDays] = useState(null);
     const [loadingForecastDataNextDays, setLoadingDataNextDays] = useState(false);
+    const [loadingData, setLoadingData] = useState(false);
 
     useEffect(()=>{
         cityServices.getCoordByCityName(city).then(coord=>{
             cityServices.getWeatherByCoord(coord).then(weather=>{
                 setCityData(weather);
+                setLoading(true);
                 cityServices.getForecastWeather(coord).then(forecast=>{
                     setWeatherData(forecast);
-                    setLoading(true);
+                    setLoadingData(true);
                 });
                 cityServices.getForecastWeatherNextDays(coord).then(forecast=>{
                     setWeatherDataNextDays(forecast);
@@ -36,7 +40,7 @@ export default function City(){
     return (
         <main className="container mx-auto px-4 pb-[60px] pt-4 max-w-[640px]">
             <CurrentTime />
-            {loading ? <><CurrentWeather
+            {loading ? <CurrentWeather
                 city={cityData.city}
                 weather={cityData.weather}
                 temperature={cityData.temperature}
@@ -44,13 +48,11 @@ export default function City(){
                 wind={cityData.wind}
                 humidity={cityData.humidity}
                 type="search"
-            /> <ForecastWeather forecastData={weatherData} />
-                {loadingForecastDataNextDays ?
-                    <ForecastWeatherNextDays forecastData={weatherDataNextDays} />
-                    :
-                    null
-                }
-            </> : <div className="text-center font-semibold">Chargement...</div>}
+            />: <CurrentWeatherSkeleton />}
+
+            {loadingData ? <ForecastWeather forecastData={weatherData} />: <ForecastWeatherSkeleton />}
+
+            {loadingForecastDataNextDays ? <ForecastWeatherNextDays forecastData={weatherDataNextDays} /> : <ForecastWeatherNextDaysSkeleton />}
         </main>
     )
 }

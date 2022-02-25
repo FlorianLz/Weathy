@@ -3,8 +3,10 @@ import CurrentWeather from "../components/CurrentWeather";
 import ForecastWeather from "../components/ForecastWeather";
 import {weatherService} from "../services/weather.service";
 import CurrentTime from "../components/CurrentTime";
-import FavoriteWeather from "../components/FavoriteWeather";
 import ForecastWeatherNextDays from "../components/ForecastWeatherNextDays";
+import CurrentWeatherSkeleton from "../components/CurrentWeatherSkeleton";
+import ForecastWeatherSkeleton from "../components/ForecastWeatherSkeleton";
+import ForecastWeatherNextDaysSkeleton from "../components/ForecastWeatherNextDaysSkeleton";
 
 export default class Home extends Component {
     constructor(props) {
@@ -28,13 +30,14 @@ export default class Home extends Component {
             temperature: data.temperature,
             icon: data.icon,
             wind: data.wind,
-            humidity: data.humidity
+            humidity: data.humidity,
+            loading: true
         });
 
         const forecastData = await weatherService.getForecastWeather();
         this.setState({
             forecastData: forecastData,
-            loading: true
+            loadingForecastData: true
         });
 
         const forecastDataNextDays = await weatherService.getForecastWeatherNextDays();
@@ -47,9 +50,8 @@ export default class Home extends Component {
     render() {
         return (
             <main className="container mx-auto px-4 pb-[60px] pt-4 max-w-[640px]">
+                <CurrentTime />
                 {this.state.loading ?
-                    <>
-                    <CurrentTime />
                     <CurrentWeather
                         city={this.state.city}
                         weather={this.state.weather}
@@ -57,15 +59,13 @@ export default class Home extends Component {
                         icon={this.state.icon}
                         wind={this.state.wind}
                         humidity={this.state.humidity}
-                    />
-                    <ForecastWeather forecastData={this.state.forecastData} />
-                    {this.state.loadingForecastDataNextDays ?
-                        <ForecastWeatherNextDays forecastData={this.state.forecastDataNextDays} />
-                        :
-                        null
-                    }
-                    </> : <p className="text-center py-6">Chargement en cours...</p>}
-
+                    />: <CurrentWeatherSkeleton />}
+                {this.state.loadingForecastData ? <ForecastWeather forecastData={this.state.forecastData} /> : <ForecastWeatherSkeleton />}
+                {this.state.loadingForecastDataNextDays ?
+                    <ForecastWeatherNextDays forecastData={this.state.forecastDataNextDays} />
+                    :
+                    <ForecastWeatherNextDaysSkeleton />
+                }
             </main>
         );
     }
