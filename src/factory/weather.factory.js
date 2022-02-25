@@ -7,7 +7,6 @@ import {weatherHelper} from "../helpers/weather.helper";
 const weatherFactory = {
     async getCurrentWeather(weatherRawData) {
         const weatherImg = imageHelper.getWeatherImage(weatherRawData.weather[0].icon);
-        console.log(weatherRawData)
         return {
             weather: weatherHelper.capitalizeFirstLetter(weatherRawData.weather[0].description),
             temperature: parseInt(weatherRawData.main.temp),

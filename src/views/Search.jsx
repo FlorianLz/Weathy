@@ -20,8 +20,8 @@ export default function Search(){
         <main className="container mx-auto px-4  h-screen max-w-[640px]">
             <h1 className="text-2xl font-bold text-center py-4">Chercher un lieu</h1>
             <p className="text-base text-center">Trouvez la ville dont vous voulez connaître les informations météorologiques détaillées.</p>
-            <div className="flex rounded  bg-gray-200 my-4 border border-gray-300">
-                <button className="flex items-center justify-center px-4 border-r-2 border-gray-300" onClick={(e)=>search(e)}>
+            <div className="flex rounded  bg-slate-200 my-4 border border-slate-300">
+                <button className="flex items-center justify-center px-4 border-r-2 border-slate-300" onClick={(e)=>search(e)}>
                     <svg className="w-4 h-4 text-gray-600" fill="black" xmlns="http://www.w3.org/2000/svg"
                          viewBox="0 0 24 24">
                         <path
