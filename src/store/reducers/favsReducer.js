@@ -13,11 +13,20 @@ export const favsReducer = createSlice({
             }else{
                 state.listOfFavs = state.listOfFavs.filter(item => item !== action.payload);
             }
-            cookiesHelper.setCookiesFavs('favoris', state.listOfFavs);
+            if(cookiesHelper.getConsentValue() === "true"){
+                cookiesHelper.setCookiesFavs('favoris', state.listOfFavs);
+            }else{
+                cookiesHelper.deleteCookie('favoris');
+            }
         },
         initFavorites: (state, action) => {
-            const favs = cookiesHelper.getCookiesFavs('favoris');
-            return {...state, listOfFavs: favs}
+            if(cookiesHelper.getConsentValue() === "true"){
+                const favs = cookiesHelper.getCookiesFavs('favoris');
+                return {...state, listOfFavs: favs}
+            }else{
+                cookiesHelper.deleteCookie('favoris');
+            }
+
         }
     }
 });
