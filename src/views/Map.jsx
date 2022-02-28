@@ -12,6 +12,8 @@ import CurrentWeatherMap from "../components/CurrentWeatherMap";
 import {favsHelper} from "../helpers/favs.helper";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import {cookiesHelper} from "../helpers/cookies.helper";
+import CookieConsent from "react-cookie-consent";
 const MyMap = ReactMapboxGl({
     accessToken:
     process.env.REACT_APP_MAPBOX_API_KEY
@@ -28,34 +30,24 @@ class Map extends Component{
             centerLat: null,
             centerLon: null,
             zoomMap: 11.5,
-            city: null
+            city: null,
+            consent: cookiesHelper.getConsentValue(),
+            showConsent: false
         }
     }
 
     componentDidMount() {
-        localisation.getLocalisation().then(
-            (response) => {
-                this.setState({
-                    longitude: response.longitude,
-                    latitude: response.latitude,
-                    centerLat: response.latitude,
-                    centerLon: response.longitude
-                });
-                weatherService.getCurrentWeatherByCoord(response.latitude, response.longitude).then(
-                    (response) => {
-                        this.setState({
-                            dataActual: response,
-                            city: response.city
-                        });
-                        setTimeout(() => {
-                            this.setState({
-                                loadingMap: true
-                            });
-                        }, 500);
-                    }
-                );
-            }
-        );
+        if(cookiesHelper.getConsentValue() === 'true'){
+            this.setMap();
+        }else{
+            const int = setInterval(()=>{
+                this.setState({consent: cookiesHelper.getConsentValue()});
+                if(cookiesHelper.getConsentValue() === 'true'){
+                    this.setMap();
+                    clearInterval(int);
+                }
+            },5000)
+        }
 
         if(this.props.listOfFavs.length > 0) {
             this.setState({
@@ -141,7 +133,9 @@ class Map extends Component{
                             {this.state.markerClicked && <Marker key={this.state.centerLat} className="w-8 h-8" coordinates={[this.state.centerLon, this.state.centerLat]} anchor="bottom">
                                 <img src={markerUrlClick} alt=""/>
                             </Marker>}
-                    </MyMap> : <Skeleton className="h-full"/> }
+                        </MyMap> : <div className="h-full relative"><Skeleton className="h-full" />
+                            {this.state.consent === 'false' && <p className="absolute top-10 text-center w-full bg-white py-4 z-10 left-0">Merci d'<span className="text-blue-400" onClick={()=>{this.setState({showConsent:true});cookiesHelper.deleteCookie('CookieConsent')}}>accepter les cookies</span> pour afficher la map.</p>}
+                        </div> }
 
                 </div>
                 {this.state.popup === true &&
@@ -158,6 +152,23 @@ class Map extends Component{
                         />
                     </div>
                 }
+                {this.state.showConsent &&
+                    <CookieConsent
+                        className="text-center"
+                        enableDeclineButton
+                        disableStyles={true}
+                        buttonText="J'accepte"
+                        declineButtonText="Je refuse"
+                        cookieName="CookieConsent"
+                        expires={150}
+                        containerClasses="bg-white w-full fixed bottom-0 h-fit z-30 p-4 text-center"
+                        buttonClasses="bg-blue-400 px-4 py-2 rounded-lg text-white ml-3"
+                        overlay={true}
+                        onDecline={() => {
+                            this.setState({consent: false,showConsent:false});
+                        }}
+                    ><p className=" block text-center pb-4">Pour fonctionner correctement, ce site utilise des cookies. Merci de les accepter pour utiliser la totalité des services.</p></CookieConsent>
+                }
             </main>
         )
     }
@@ -171,6 +182,32 @@ class Map extends Component{
                 popup: false
             });
         },600);
+    }
+
+    setMap() {
+        localisation.getLocalisation().then(
+            (response) => {
+                this.setState({
+                    longitude: response.longitude,
+                    latitude: response.latitude,
+                    centerLat: response.latitude,
+                    centerLon: response.longitude
+                });
+                weatherService.getCurrentWeatherByCoord(response.latitude, response.longitude).then(
+                    (response) => {
+                        this.setState({
+                            dataActual: response,
+                            city: response.city
+                        });
+                        setTimeout(() => {
+                            this.setState({
+                                loadingMap: true
+                            });
+                        }, 500);
+                    }
+                );
+            }
+        );
     }
 }
 
